@@ -28,10 +28,11 @@ public class Probability {
 		  return result;
 	}	
 
-	public static Map<String, Double> MapRandom(String mapname){
+	public static Map<String, Double> MapRandom(String id, String mapname, String type){
 		
 		Map<String, Double> w = new HashMap<String, Double>();
-		String sql ="SELECT DOLL_ID, " + mapname + " FROM DOLLS_CHOICE";	 
+		String sql ="SELECT "+ id +"," + mapname + " FROM STORE_"
+				+ type;	 
 		conn = DBUtil.getConnect();
 		try {
 			st = conn.prepareStatement(sql);
@@ -47,4 +48,5 @@ public class Probability {
 		}
 		return w;
 	}
+	
 }

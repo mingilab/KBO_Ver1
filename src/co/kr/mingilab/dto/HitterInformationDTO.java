@@ -25,6 +25,7 @@ public class HitterInformationDTO {
 	 * RISP                                      NOT NULL NUMBER(4,3)
 	 */
 	
+	
 	String playerid;
 	String name;
 	String club;

@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 import co.kr.mingilab.dto.AccountDTO;
 import co.kr.mingilab.util.DBUtil;
-
+	
 public class AccountDAO {
 	
 	static Connection conn;
@@ -25,9 +25,7 @@ public class AccountDAO {
  	 *  WIN                                                NUMBER
  	 *  LOSS                                               NUMBER
  	 *  KRW                                                NUMBER
-	 */
-	
-	
+	 */	
 	
 	// 실제로 사용되는 DTO pw정보가 비어있음
 	public static AccountDTO userload(AccountDTO dto) {
@@ -179,4 +177,33 @@ public class AccountDAO {
 	 	}
 	 	
 	} //makeUser
+	
+	static public int KrwUse(AccountDTO dto, char grade){
+		
+		int krw=0;
+		if(grade == 'A'){
+			krw = 10000;
+		}else if(grade == 'B'){
+			krw = 3000;
+		}else{
+			krw = 1000;
+		}
+		
+		String sql = "update account set krw = krw-"
+				+ krw
+				+ " where userid=?";
+		conn = DBUtil.getConnect();
+		int count=0;
+		try {
+			st = conn.prepareStatement(sql);
+			st.setString(1, dto.getUserid());
+			count = st.executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
+			e.getMessage();
+		} finally {
+			DBUtil.dbClose(conn, st, rs);
+		}
+		return count;	
+	}
 }

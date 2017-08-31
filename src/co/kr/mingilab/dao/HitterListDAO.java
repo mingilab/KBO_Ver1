@@ -13,39 +13,35 @@ public class HitterListDAO {
 	static Connection conn;
 	static PreparedStatement st;
 	static ResultSet rs;
-	/*
+	
 	static public void StaringlistPrint(String userid){
-		
-		String position[] = new String[15];
-		position[1] = "D";
-		position[2] = "2";
-		position[3] = "3";
-		position[4] = "4";
-		position[5] = "5";
-		position[6] = "6";
-		position[7] = "7";
-		position[8] = "8";
-		position[9] = "9";
-		position[10] = "h1";
-		position[11] = "h2";
-		position[13] = "h3";
-		position[14] = "h4";
+
 		
 		String sql = "select HITTERSEQ,PLAYERID,HITTERLV,HITTEREXP,POSITION,BATTINGORDER,NAME,GRADE,AVG,OPS"
 				+ " from HITTER_STORAGE"
 				+ " join HITTER_INFORMATION using(PLAYERID)"
 				+ " where USERID = ?"
-				+ " and POSITION = ?"
-				+ " order by USERID, POSITION";	 
+				+ " order by POSITION";	 
 		conn = DBUtil.getConnect();
-		System.out.printf("선수고유번호/t 타자ID/t 타자LV/t 보유경험치/t 선발여부/t 타순/t 이름/t 등급/t 타율/t ops/t");
+		System.out.printf("고유번호  타자ID\t 타자LV\t 보유경험치\t 선발여부\t 타순\t 이름\t 등급\t 타율\t ops");
+		System.out.println();
 		try {
-			for(int i = 1 ; i<=14 ; i++){
-				st = conn.prepareStatement(sql);
-				st.setString(1, userid);
-				st.setString(2, position[i]);
-				rs = st.executeQuery();
-				System.out.printf("%d/t %d/t %d/t %d/t");
+			st = conn.prepareStatement(sql);
+			st.setString(1, userid);
+			rs = st.executeQuery();
+			while(rs.next()){
+				System.out.printf("%d\t",rs.getInt(1));
+				System.out.printf("%d\t",rs.getInt(2));
+				System.out.printf("%d\t",rs.getInt(3));
+				System.out.printf("%d\t",rs.getInt(4));
+				System.out.printf("%s\t",rs.getString(5));
+				System.out.printf("%d\t",rs.getInt(6));
+				System.out.printf("%s\t",rs.getString(7));
+				System.out.printf("%c\t",(rs.getString(8)).charAt(0));
+				System.out.printf("%4.3f\t",rs.getDouble(9));
+				System.out.printf("%4.3f\t",rs.getDouble(10));
+				System.out.println();
+				
 			}
 			conn.commit();
 		} catch (SQLException e) {
@@ -53,7 +49,7 @@ public class HitterListDAO {
 		} finally {
 			DBUtil.dbClose(conn, st, rs);
 		}
-	} */
+	} 
 	
 	static public HitterListDTO[] StaringOrderGet(String userid){
 		
