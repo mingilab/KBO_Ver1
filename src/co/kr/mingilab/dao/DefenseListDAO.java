@@ -106,41 +106,71 @@ public class DefenseListDAO {
 		
 	} //StaringlistPrint
 	
-	public static ArrayList<DefenseListDTO> backuplistPrint(String userid, String position){
+	public static ArrayList<DefenseListDTO> backuplistPrint(String userid, String sposition){
 		
 		ddtoalist = new ArrayList<DefenseListDTO>();
+		System.out.println(sposition);
+		String sql ="";
 		
-		String sql = "select H.HITTERSEQ, H.playerid, name, club, D.POSITION, D.grade, H.BATTINGORDER, H.POSITION"
-					+ " from HITTER_STORAGE H, DEFENSE_INFORMATION D"
-					+ " where H.userid = ?"
-					+ " and D.POSITION= ?"
-					+ " and H.playerid=D.playerid";
-		
+		sql = "select H.HITTERSEQ, H.playerid, name, club, D.POSITION, D.grade, H.BATTINGORDER, H.POSITION"
+				+ " from HITTER_STORAGE H, DEFENSE_INFORMATION D"
+				+ " where H.userid = ?"
+				+ " and D.POSITION= ?"
+				+ " and H.POSITION is null"
+				+ " and H.playerid=D.playerid";
+				
 		conn = DBUtil.getConnect();
 		
-		try {
-			st = conn.prepareStatement(sql);
-			st.setString(1, userid);
-			st.setString(2, position);
-			rs = st.executeQuery();
-			while(rs.next()){
-				ddto = new DefenseListDTO();
-				ddto.setHitterseq(rs.getInt(1));
-				ddto.setPlayerid(rs.getInt(2));
-				ddto.setName(rs.getString(3));
-				ddto.setClub(rs.getString(4));
-				ddto.setPosition(rs.getString(5));
-				ddto.setGrade(rs.getString(6));
-				ddto.setIp(rs.getInt(7));
-				ddto.setSposition(rs.getString(8));
-				ddtoalist.add(ddto);
+		if(sposition.equals("D")){
+			try {
+				st = conn.prepareStatement(sql);
+				st.setString(1, userid);
+				st.setString(2, sposition);
+				rs = st.executeQuery();
+				while(rs.next()){
+					ddto = new DefenseListDTO();
+					ddto.setHitterseq(rs.getInt(1));
+					ddto.setPlayerid(rs.getInt(2));
+					ddto.setName(rs.getString(3));
+					ddto.setClub(rs.getString(4));
+					ddto.setPosition(rs.getString(5));
+					ddto.setGrade(rs.getString(6));
+					ddto.setIp(rs.getInt(7));
+					ddto.setSposition(rs.getString(8));
+					ddtoalist.add(ddto);
+				}
+				conn.commit();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				DBUtil.dbClose(conn, st, rs);
 			}
-			conn.commit();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			DBUtil.dbClose(conn, st, rs);
-		}		
+			
+		}else{
+			try {
+				st = conn.prepareStatement(sql);
+				st.setString(1, userid);
+				st.setString(2, sposition);
+				rs = st.executeQuery();
+				while(rs.next()){
+					ddto = new DefenseListDTO();
+					ddto.setHitterseq(rs.getInt(1));
+					ddto.setPlayerid(rs.getInt(2));
+					ddto.setName(rs.getString(3));
+					ddto.setClub(rs.getString(4));
+					ddto.setPosition(rs.getString(5));
+					ddto.setGrade(rs.getString(6));
+					ddto.setIp(rs.getInt(7));
+					ddto.setSposition(rs.getString(8));
+					ddtoalist.add(ddto);
+				}
+				conn.commit();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				DBUtil.dbClose(conn, st, rs);
+			}		
+		}
 		
 		return ddtoalist;
 	}

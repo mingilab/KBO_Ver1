@@ -47,8 +47,8 @@ public class HitterStorageDAO {
 		int count=0;
 		try {
 			st = conn.prepareStatement(sql);
-			if(dto2.getPosition()!="0"){
-				st.setString(1, dto2.getPosition());
+			if(dto2.getSposition()!="0"){
+				st.setString(1, dto2.getSposition());
 			}else{
 				st.setString(1, null);
 			}
