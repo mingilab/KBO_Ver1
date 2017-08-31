@@ -20,7 +20,7 @@ public class Buy {
 	Map<String, Double> map1 = Probability.MapRandom("PITCHERID","PITCHERCHOICE0", "pitcher");
 	
 	public void Hitter(AccountDTO accountdto){
-		
+						
 		Scanner sc = new Scanner(System.in);
 		int ykey;
 		int select;

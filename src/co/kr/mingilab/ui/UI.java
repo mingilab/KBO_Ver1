@@ -37,8 +37,8 @@ public class UI {
 		System.out.printf("승:%d, 패:%d, 승률:%4.3f%n", win, loss, winaverage);
 		System.out.println("1.상점");
 		System.out.println("2.구단관리");
-		System.out.println("3.경매장");
-		System.out.println("4.서버접속");
+		System.out.println("3.타자플레이(서버)");
+		System.out.println("4.투수플레이(클라이언트)");
 		System.out.println("0.프로그램종료");
 		
 	}

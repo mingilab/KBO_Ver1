@@ -7,6 +7,8 @@ public class DefenseListDTO {
 	int playerid;
 	int hitterlv;
 	int hitterexp;
+	String sposition;
+	int battingorder;
 	String name;
 	String club;
 	String grade;
@@ -21,14 +23,17 @@ public class DefenseListDTO {
 		
 	}
 	
-	public DefenseListDTO(int hitterseq, String userid, int playerid, int hitterlv, int hitterexp, String name,
-			String club, String grade, String position, int g, int ip, int e, double fpct, double cs) {
+	public DefenseListDTO(int hitterseq, String userid, int playerid, int hitterlv, int hitterexp, String sposition,
+			int battingorder, String name, String club, String grade, String position, int g, int ip, int e,
+			double fpct, double cs) {
 		super();
 		this.hitterseq = hitterseq;
 		this.userid = userid;
 		this.playerid = playerid;
 		this.hitterlv = hitterlv;
 		this.hitterexp = hitterexp;
+		this.sposition = sposition;
+		this.battingorder = battingorder;
 		this.name = name;
 		this.club = club;
 		this.grade = grade;
@@ -69,6 +74,18 @@ public class DefenseListDTO {
 	}
 	public void setHitterexp(int hitterexp) {
 		this.hitterexp = hitterexp;
+	}
+	public String getSposition() {
+		return sposition;
+	}
+	public void setSposition(String sposition) {
+		this.sposition = sposition;
+	}
+	public int getBattingorder() {
+		return battingorder;
+	}
+	public void setBattingorder(int battingorder) {
+		this.battingorder = battingorder;
 	}
 	public String getName() {
 		return name;
@@ -124,16 +141,18 @@ public class DefenseListDTO {
 	public void setCs(double cs) {
 		this.cs = cs;
 	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DefenseListDTO [hitterseq=").append(hitterseq).append(", userid=").append(userid)
 				.append(", playerid=").append(playerid).append(", hitterlv=").append(hitterlv).append(", hitterexp=")
-				.append(hitterexp).append(", name=").append(name).append(", club=").append(club).append(", grade=")
+				.append(hitterexp).append(", sposition=").append(sposition).append(", battingorder=")
+				.append(battingorder).append(", name=").append(name).append(", club=").append(club).append(", grade=")
 				.append(grade).append(", position=").append(position).append(", g=").append(g).append(", ip=")
 				.append(ip).append(", e=").append(e).append(", fpct=").append(fpct).append(", cs=").append(cs)
 				.append("]");
 		return builder.toString();
 	}
-		
+	
 }	

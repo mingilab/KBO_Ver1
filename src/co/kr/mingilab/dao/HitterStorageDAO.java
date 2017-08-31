@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import co.kr.mingilab.dto.DefenseListDTO;
 import co.kr.mingilab.util.DBUtil;
 
 public class HitterStorageDAO {
@@ -37,6 +38,45 @@ public class HitterStorageDAO {
 		
 	}
 
+	public static int changePlayer(DefenseListDTO dto1, DefenseListDTO dto2){
+		
+		String sql; 
+		sql = "update HITTER_STORAGE set position=?, BATTINGORDER=? where HITTERSEQ=?";
+		
+		conn = DBUtil.getConnect();
+		int count=0;
+		try {
+			st = conn.prepareStatement(sql);
+			if(dto2.getPosition()!="0"){
+				st.setString(1, dto2.getPosition());
+			}else{
+				st.setString(1, null);
+			}
+			if(1<=dto2.getBattingorder() && dto2.getBattingorder()<=9){
+				st.setInt(2, dto2.getBattingorder());
+			}else{
+				st.setNString(2, null);
+			}
+			st.setInt(3, dto1.getHitterseq());
+			count += st.executeUpdate();
+			conn.commit();	
+			
+		} catch (SQLException e) {
+			e.getMessage();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			DBUtil.dbClose(conn, st, rs);
+		}
+		return count;
+	}
+	
+	
+	
 	public static void makeHitterNC(String userid){
 		//makePlayer(userid, playerid, position, battingorder);
 		

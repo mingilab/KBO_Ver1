@@ -11,6 +11,7 @@ import co.kr.mingilab.util.DBUtil;
 	
 public class AccountDAO {
 	
+	static int count;
 	static Connection conn;
 	static PreparedStatement st;
 	static ResultSet rs;
@@ -206,4 +207,47 @@ public class AccountDAO {
 		}
 		return count;	
 	}
+	
+	
+	public static int WinUpdate(String uid) {
+		conn = DBUtil.getConnect();
+		String sql ="UPDATE Account SET WIN = WIN+1,KRW = KRW+700,USEREXP=USEREXP+100,USERLV=USERLV+1 where USERID=?";	 
+		
+		
+		try {
+			st = conn.prepareStatement(sql);
+			st.setString(1, uid);
+			count = st.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.dbClose(conn, st, rs);
+		}
+		
+			return count;
+		}
+		
+	
+	
+	public static int LossUpdate(String uid) {
+		
+		conn = DBUtil.getConnect();
+		String sql ="UPDATE Account SET LOSS = LOSS+1,KRW = KRW-500,USEREXP=USEREXP-10 where USERID=?"; 
+	
+		
+		try {
+			st = conn.prepareStatement(sql);
+			st.setString(1, uid);
+			count = st.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.dbClose(conn, st, rs);
+		}
+		
+			return count;
+		}
+	
 }

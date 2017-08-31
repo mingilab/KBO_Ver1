@@ -46,15 +46,22 @@ public class MainController implements ControllerInterface {
 				start.execute(map);
 				break;
 			}
+			
 			case 3:{
-				System.out.println("경매장에 접속합니다.");
+				System.out.println("타자플레이를 시작합니다(서버)");
+				ServerController start = new ServerController();
+				map.put("dto1", accountdto);
+				start.execute(map);
 				break;
 			}
 			case 4:{
-				System.out.println("플레이서버에 접속합니다.");
+				System.out.println("투수플레이를 시작합니다(클라이언트)");
+				ClientController start = new ClientController();
+				map.put("dto1", accountdto);
+				start.execute(map);
 				break;
 			}
-		
+			
 			default:
 				System.out.println("잘못 선택하셨습니다.");
 				break;

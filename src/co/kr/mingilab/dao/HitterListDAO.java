@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import co.kr.mingilab.dto.HitterListDTO;
+import co.kr.mingilab.dto.HitterListDTO1;
+import co.kr.mingilab.dto.PitcherListDTO;
 import co.kr.mingilab.util.DBUtil;
 
 public class HitterListDAO {
@@ -15,7 +17,6 @@ public class HitterListDAO {
 	static ResultSet rs;
 	
 	static public void StaringlistPrint(String userid){
-
 		
 		String sql = "select HITTERSEQ,PLAYERID,HITTERLV,HITTEREXP,POSITION,BATTINGORDER,NAME,GRADE,AVG,OPS"
 				+ " from HITTER_STORAGE"
@@ -51,9 +52,100 @@ public class HitterListDAO {
 		}
 	} 
 	
+
+	static public HitterListDTO[] thisHitter(String userid,int batOrder){
+		
+		HitterListDTO[] dtoarr = new HitterListDTO[14] ;
+		
+		HitterListDTO dto;
+		
+	
+		String sql = "select HITTERSEQ,PLAYERID,HITTERLV,HITTEREXP,POSITION,BATTINGORDER,NAME,GRADE,AVG,OPS"
+				+ " from HITTER_STORAGE"
+				+ " join HITTER_INFORMATION using(PLAYERID)"
+				+ " where USERID = ?"
+				+ " and BATTINGORDER = ?"
+				;	 
+		conn = DBUtil.getConnect();
+		
+		
+		try {
+			for(int i = 1 ; i<=1 ; i++){
+				st = conn.prepareStatement(sql);
+				st.setString(1, userid);
+				st.setInt(2, batOrder);
+				rs = st.executeQuery();
+				dto = new HitterListDTO();
+				if(rs.next()){
+					dto.setHitterseq(rs.getInt(1));
+					dto.setPlayerid(rs.getInt(2));
+					dto.setHitterlv(rs.getInt(3));
+					dto.setHitterexp(rs.getInt(4));
+					dto.setPosition(rs.getString(5));
+					dto.setHittingOrder(rs.getInt(6));
+					dto.setName(rs.getString(7));
+					dto.setGrade((rs.getString(8)).charAt(0));
+					dto.setAvg(rs.getDouble(9));
+					dto.setOps(rs.getDouble(10));
+					dtoarr[i] = dto;
+				}
+			}
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.dbClose(conn, st, rs);
+		}
+		
+		return dtoarr;
+		
+	} //print
+
+	static public HitterListDTO[] thisHitterGrade(String userid,int batOrder){
+		
+		HitterListDTO[] dtoarr = new HitterListDTO[14] ;
+		
+		HitterListDTO dto;
+		
+	
+		String sql = "select GRADE"
+				+ " from HITTER_STORAGE"
+				+ " join HITTER_INFORMATION using(PLAYERID)"
+				+ " where USERID = ?"
+				+ " and BATTINGORDER = ?"
+				;	 
+		conn = DBUtil.getConnect();
+		
+		
+		try {
+			for(int i = 1 ; i<=1 ; i++){
+				st = conn.prepareStatement(sql);
+				st.setString(1, userid);
+				st.setInt(2, batOrder);
+				rs = st.executeQuery();
+				dto = new HitterListDTO();
+				if(rs.next()){
+					
+					dto.setGrade((rs.getString(1)).charAt(0));
+					
+					dtoarr[i] = dto;
+				}
+			}
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.dbClose(conn, st, rs);
+		}
+		
+		return dtoarr;
+		
+	} //print
+	
+
 	static public HitterListDTO[] StaringOrderGet(String userid){
 		
-		HitterListDTO[] dtoarr = new HitterListDTO[15];
+		HitterListDTO[] dtoarr = new HitterListDTO[14];
 		
 		HitterListDTO dto;
 		
@@ -77,7 +169,7 @@ public class HitterListDAO {
 				+ " join HITTER_INFORMATION using(PLAYERID)"
 				+ " where USERID = ?"
 				+ " and POSITION = ?"
-				+ " order by USERID, POSITION";	 
+				+ " order by BATTINGORDER, POSITION";	 
 		conn = DBUtil.getConnect();
 		
 		try {
@@ -93,7 +185,7 @@ public class HitterListDAO {
 					dto.setHitterlv(rs.getInt(3));
 					dto.setHitterexp(rs.getInt(4));
 					dto.setPosition(rs.getString(5));
-					dto.setBattingorder(rs.getInt(6));
+					dto.setHittingOrder(rs.getInt(6));
 					dto.setName(rs.getString(7));
 					dto.setGrade((rs.getString(8)).charAt(0));
 					dto.setAvg(rs.getDouble(9));
@@ -111,5 +203,6 @@ public class HitterListDAO {
 		return dtoarr;
 		
 	} //print
+	
 	
 }
